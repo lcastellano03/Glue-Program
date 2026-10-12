@@ -1022,7 +1022,7 @@ const V3 = {
       // glue zone band
       const zb = add(new Tn.CylinderGeometry(Ri + (G.od ? 0.05 : -0.05), Ri + (G.od ? 0.05 : -0.05), o.zoneBot - o.zoneTop, 96, 1, true), clipM(mZone.clone()), 0, yt - (o.zoneTop + o.zoneBot) / 2, 0, PG); zb.castShadow = false;
       // beads
-      const cols = [getVar('--s1'), getVar('--s2')], P = cfg.pattern;
+      const cols = ['#ffffff', '#ffffff'], P = cfg.pattern;  // 3D adhesive beads are white
       P.spirals.forEach((s, i) => { const arr = [], rb = Ri + (G.od ? 0.38 : -0.38);
         for (let k = 0; k <= 240; k++){ const uu = k / 240, a = rad(spStart(s, feat()) + P.sweep * uu); arr.push(new Tn.Vector3(rb * Math.cos(a), yt - (o.zs + (o.ze - o.zs) * uu), -rb * Math.sin(a))); }
         const tg = new Tn.TubeGeometry(new Tn.CatmullRomCurve3(arr), 240, 0.38, 6, false);
