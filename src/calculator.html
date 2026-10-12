@@ -948,7 +948,7 @@ const V3 = {
       between(pHubTop, pBarTop, 6.5, 6.5, mGlass, NG); between(pHubTop, pHubTop.clone().addScaledVector(u, B3.barrelLen * 0.55), 5.4, 5.4, mFluid, NG);
       between(pBarTop, pBarTop.clone().addScaledVector(u, 6), 7.5, 7.5, mDark, NG);
       between(pBarTop.clone().addScaledVector(u, 3), topL, 3.5, 3.5, mAlu, NG);
-      add(new Tn.SphereGeometry(Math.max(0.6, nr), 16, 12), mAccent, tipL.x, 0, tipL.z, NG);
+      add(new Tn.SphereGeometry(Math.max(0.6, nr), 16, 12), Mt(0xffffff, { roughness: 0.3 }), tipL.x, 0, tipL.z, NG);
       // variable-angle barrel bracket (arc plate with angle holes), in the plane of the barrel
       { const sh = new Tn.Shape(), r0 = 16, r1 = 34, A0 = rad(-170), A1 = rad(-60);
         sh.absarc(0, 0, r1, A0, A1, false); sh.absarc(0, 0, r0, A1, A0, true);
