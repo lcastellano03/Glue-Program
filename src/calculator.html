@@ -7,11 +7,11 @@
 <style>
 /* ============ THEME (edit colours here) ============ */
 :root{
-  --bg:#f6f3fc; --card:#ffffff; --tint:#f1ecfa; --tint2:#e4ddf4; --lav:#cfc4ea; --line:#d6cdee;
-  --accent:#5b4b8a; --accent2:#7b68ae; --ink:#2e2a47; --muted:#6c6488;
+  --bg:#ffffff; --card:#ffffff; --tint:#F2F4FA; --tint2:#E3E7F2; --lav:#C5CDE3; --line:#C5CDE3;
+  --accent:#291E44; --accent2:#53478A; --ink:#221E32; --muted:#5A5670;
   --ph:#ffe9b3; --ph-ink:#7a5a00; --bad:#ffd4d4; --bad-ink:#9c0006; --ok:#e2f3e6; --ok-ink:#1e6b34;
-  --s1:#5b4b8a; --s2:#c0568f;
-  --font: "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --s1:#53478A; --s2:#c0568f;
+  --font: Arial,"Helvetica Neue",Helvetica,system-ui,sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -21,7 +21,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--font)}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 18px;background:var(--card);border-bottom:3px solid var(--lav)}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 18px;background:var(--card);border-bottom:4px solid #221E32}
 #logoBox{height:40px;min-width:40px;display:flex;align-items:center}
 #logoImg{height:40px;max-width:220px;object-fit:contain;display:none}
 #logoBtn{border:1px dashed var(--accent2);background:var(--tint);color:var(--accent);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:12px}
@@ -96,7 +96,7 @@ table input.t{text-align:left;color:var(--ink)}
 .bar3 label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .bar3 select{border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:#fff}
 .bar3 input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
-.stage{position:relative;height:min(68vh,680px);min-height:380px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#ece8f6}
+.stage{position:relative;height:min(68vh,680px);min-height:380px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#E3E7F2}
 #view3{position:absolute;inset:0}
 #view3 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .hud{position:absolute;left:10px;top:10px;max-width:min(380px,calc(100% - 120px));background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:8px 10px;pointer-events:none}
