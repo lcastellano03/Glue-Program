@@ -838,7 +838,7 @@ const V3 = {
     const fill = new Tn.DirectionalLight(0xdcd6ff, 0.35); fill.position.set(-400, 300, -300); scene.add(fill);
     const Mt = (c, o) => new Tn.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0.1 }, o || {}));
     const mBody = Mt(0xe7e5ee), mDark = Mt(0x3b3652, { roughness: 0.6 }), mAlu = Mt(0xc9cbd6, { metalness: 0.55, roughness: 0.35 }), mPlate = Mt(0xb9bcc9, { metalness: 0.6, roughness: 0.4 }),
-      mAccent = Mt(0x5b4b8a), mGlass = Mt(0xe8f2ff, { transparent: true, opacity: 0.35, roughness: 0.1 }), mFluid = Mt(0xe6b34a, { roughness: 0.3 }), mSteel = Mt(0x9aa0ad, { metalness: 0.8, roughness: 0.25 }),
+      mAccent = Mt(0x5b4b8a), mGlass = Mt(0xe8f2ff, { transparent: true, opacity: 0.35, roughness: 0.1 }), mFluid = Mt(0xffffff, { roughness: 0.3 }), mSteel = Mt(0x9aa0ad, { metalness: 0.8, roughness: 0.25 }),
       mJig = Mt(0x8d84b8, { roughness: 0.5 }), mBell = Mt(0xb7bac6, { metalness: 0.7, roughness: 0.3, side: Tn.DoubleSide }), mRing = Mt(0x5c6070, { metalness: 0.7, roughness: 0.35, side: Tn.DoubleSide }),
       mZone = Mt(0xcfc4ea, { transparent: true, opacity: 0.35, side: Tn.DoubleSide, depthWrite: false });
     const add = (g, m, x, y, z, p) => { const o = new Tn.Mesh(g, m); o.position.set(x, y, z); o.castShadow = true; o.receiveShadow = true; (p || scene).add(o); return o; };
