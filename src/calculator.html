@@ -7,11 +7,11 @@
 <style>
 /* ============ THEME (edit colours here) ============ */
 :root{
-  --bg:#f6f3fc; --card:#ffffff; --tint:#f1ecfa; --tint2:#e4ddf4; --lav:#cfc4ea; --line:#d6cdee;
-  --accent:#5b4b8a; --accent2:#7b68ae; --ink:#2e2a47; --muted:#6c6488;
+  --bg:#ffffff; --card:#ffffff; --tint:#F2F4FA; --tint2:#E3E7F2; --lav:#C5CDE3; --line:#C5CDE3;
+  --accent:#291E44; --accent2:#53478A; --ink:#221E32; --muted:#5A5670;
   --ph:#ffe9b3; --ph-ink:#7a5a00; --bad:#ffd4d4; --bad-ink:#9c0006; --ok:#e2f3e6; --ok-ink:#1e6b34;
-  --s1:#5b4b8a; --s2:#c0568f;
-  --font: "Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --s1:#53478A; --s2:#c0568f;
+  --font: Arial,"Helvetica Neue",Helvetica,system-ui,sans-serif;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
@@ -21,7 +21,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--font)}
 button,input,select{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 18px;background:var(--card);border-bottom:3px solid var(--lav)}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 18px;background:var(--card);border-bottom:4px solid #221E32}
 #logoBox{height:40px;min-width:40px;display:flex;align-items:center}
 #logoImg{height:40px;max-width:220px;object-fit:contain;display:none}
 #logoBtn{border:1px dashed var(--accent2);background:var(--tint);color:var(--accent);border-radius:6px;padding:6px 10px;cursor:pointer;font-size:12px}
@@ -96,7 +96,7 @@ table input.t{text-align:left;color:var(--ink)}
 .bar3 label{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .bar3 select{border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:#fff}
 .bar3 input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
-.stage{position:relative;height:min(68vh,680px);min-height:380px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#ece8f6}
+.stage{position:relative;height:min(68vh,680px);min-height:380px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#E3E7F2}
 #view3{position:absolute;inset:0}
 #view3 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .hud{position:absolute;left:10px;top:10px;max-width:min(380px,calc(100% - 120px));background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:8px 10px;pointer-events:none}
@@ -839,7 +839,7 @@ const V3 = {
     const fill = new Tn.DirectionalLight(0xdcd6ff, 0.35); fill.position.set(-400, 300, -300); scene.add(fill);
     const Mt = (c, o) => new Tn.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0.1 }, o || {}));
     const mBody = Mt(0xe7e5ee), mDark = Mt(0x3b3652, { roughness: 0.6 }), mAlu = Mt(0xc9cbd6, { metalness: 0.55, roughness: 0.35 }), mPlate = Mt(0xb9bcc9, { metalness: 0.6, roughness: 0.4 }),
-      mAccent = Mt(0x5b4b8a), mGlass = Mt(0xe8f2ff, { transparent: true, opacity: 0.35, roughness: 0.1 }), mFluid = Mt(0xe6b34a, { roughness: 0.3 }), mSteel = Mt(0x9aa0ad, { metalness: 0.8, roughness: 0.25 }),
+      mAccent = Mt(0x5b4b8a), mGlass = Mt(0xe8f2ff, { transparent: true, opacity: 0.35, roughness: 0.1 }), mFluid = Mt(0xffffff, { roughness: 0.3 }), mSteel = Mt(0x9aa0ad, { metalness: 0.8, roughness: 0.25 }),
       mJig = Mt(0x8d84b8, { roughness: 0.5 }), mBell = Mt(0xb7bac6, { metalness: 0.7, roughness: 0.3, side: Tn.DoubleSide }), mRing = Mt(0x5c6070, { metalness: 0.7, roughness: 0.35, side: Tn.DoubleSide }),
       mZone = Mt(0xcfc4ea, { transparent: true, opacity: 0.35, side: Tn.DoubleSide, depthWrite: false });
     const add = (g, m, x, y, z, p) => { const o = new Tn.Mesh(g, m); o.position.set(x, y, z); o.castShadow = true; o.receiveShadow = true; (p || scene).add(o); return o; };
@@ -949,7 +949,7 @@ const V3 = {
       between(pHubTop, pBarTop, 6.5, 6.5, mGlass, NG); between(pHubTop, pHubTop.clone().addScaledVector(u, B3.barrelLen * 0.55), 5.4, 5.4, mFluid, NG);
       between(pBarTop, pBarTop.clone().addScaledVector(u, 6), 7.5, 7.5, mDark, NG);
       between(pBarTop.clone().addScaledVector(u, 3), topL, 3.5, 3.5, mAlu, NG);
-      add(new Tn.SphereGeometry(Math.max(0.6, nr), 16, 12), mAccent, tipL.x, 0, tipL.z, NG);
+      add(new Tn.SphereGeometry(Math.max(0.6, nr), 16, 12), Mt(0xffffff, { roughness: 0.3 }), tipL.x, 0, tipL.z, NG);
       // variable-angle barrel bracket (arc plate with angle holes), in the plane of the barrel
       { const sh = new Tn.Shape(), r0 = 16, r1 = 34, A0 = rad(-170), A1 = rad(-60);
         sh.absarc(0, 0, r1, A0, A1, false); sh.absarc(0, 0, r0, A1, A0, true);
@@ -1023,7 +1023,7 @@ const V3 = {
       // glue zone band
       const zb = add(new Tn.CylinderGeometry(Ri + (G.od ? 0.05 : -0.05), Ri + (G.od ? 0.05 : -0.05), o.zoneBot - o.zoneTop, 96, 1, true), clipM(mZone.clone()), 0, yt - (o.zoneTop + o.zoneBot) / 2, 0, PG); zb.castShadow = false;
       // beads
-      const cols = [getVar('--s1'), getVar('--s2')], P = cfg.pattern;
+      const cols = ['#ffffff', '#ffffff'], P = cfg.pattern;  // 3D adhesive beads are white
       P.spirals.forEach((s, i) => { const arr = [], rb = Ri + (G.od ? 0.38 : -0.38);
         for (let k = 0; k <= 240; k++){ const uu = k / 240, a = rad(spStart(s, feat()) + P.sweep * uu); arr.push(new Tn.Vector3(rb * Math.cos(a), yt - (o.zs + (o.ze - o.zs) * uu), -rb * Math.sin(a))); }
         const tg = new Tn.TubeGeometry(new Tn.CatmullRomCurve3(arr), 240, 0.38, 6, false);
