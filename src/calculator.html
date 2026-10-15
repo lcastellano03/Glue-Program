@@ -310,7 +310,7 @@ const DEFAULTS = {
     needle: 25,           // needle reach below mount, mm (placeholder)
     rWindow: 720,         // R travel, ± deg
     nozzle0: 180,         // nozzle direction at R = 0 (180 = west) — verify
-    compensates: true,    // controller compensates R during program execution: key tip XY only
+    compensates: false,   // false = X/Y are head positions (include d, alpha from R calibration). true = controller tracks the tip itself: key tip XY only
     dSet: 0,
     dSets: [
       { name: 'Calibration (notes, 3D model)', d: 44.39, a: 8.64 },
@@ -382,10 +382,11 @@ function merge(base, over){
   return out;
 }
 let cfg = clone(DEFAULTS);
-try { const s = localStorage.getItem(STORE_KEY); if (s) cfg = merge(clone(DEFAULTS), JSON.parse(s).cfg || {}); } catch(e) {}
+// ver 2: 'compensates' now defaults to false. Older saves had it true, which silently ignored the R calibration (d, alpha).
+try { const s = localStorage.getItem(STORE_KEY); if (s){ const j = JSON.parse(s); cfg = merge(clone(DEFAULTS), j.cfg || {}); if ((j.ver || 1) < 2) cfg.machine.compensates = false; } } catch(e) {}
 let sel = { prog: 'Flux', size: 2807, x: 80 };
 try { const s = localStorage.getItem(STORE_KEY); if (s && JSON.parse(s).sel) sel = {...sel, ...JSON.parse(s).sel}; } catch(e) {}
-function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify({cfg, sel})); } catch(e) {} }
+function save(){ try { localStorage.setItem(STORE_KEY, JSON.stringify({ver: 2, cfg, sel})); } catch(e) {} }
 
 /* ===================== math ===================== */
 const feat = () => (cfg.programs[sel.prog] || {}).feature;
@@ -517,7 +518,7 @@ function render(){
   });
   $('tblBox').innerHTML = h + '</tbody></table>';
   $('tblNote').textContent = M.compensates
-    ? 'Controller compensates R: X/Y are tip positions.'
+    ? 'Compensation ON (Settings): X/Y are tip positions only, the R calibration is NOT applied. If the nozzle goes to the wrong place on Arc Points, turn this off.'
     : 'X/Y move the head to keep the tip on path while R turns (d, alpha).';
   window._rows = o.rows;
   drawWall(o); drawTop(o);
