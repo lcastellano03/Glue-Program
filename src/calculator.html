@@ -304,6 +304,7 @@ const STORE_KEY = 'um-glue-calc-v7';
 
 const DEFAULTS = {
   machine: {
+    maxZ: 17,             // deepest Z the nozzle may reach (barrel holder hits the part below this), mm from Z0
     homeZ: 55.5,          // home Z to work plate, mm (Z0 = home, larger = lower)
     partY: 0,             // machine Y at part center
     lift: 3,              // lift above top of part, mm  (placeholder)
@@ -406,13 +407,14 @@ function compute(){
   const OD = prog.feature === 'OD';
   const r = OD ? part.dia / 2 + prog.clear : part.dia / 2 - prog.clear;
   const zoneTop = prog.lip, zoneBot = part.depth - part.teeth - prog.margin;
-  const zs = zoneTop + prog.halfBead, ze = zoneBot - prog.halfBead, drop = ze - zs;
+    const topZ0 = M.homeZ - prog.jigTop, maxDepth = M.maxZ - topZ0;      // deepest allowed centerline depth below top of part
+  const zs = zoneTop + prog.halfBead, zeFull = zoneBot - prog.halfBead, ze = Math.min(zeFull, maxDepth), drop = ze - zs, capped = ze < zeFull;
   const turns = P.sweep / 360, nS = P.spirals.length;
   const spacing = turns > 0 && nS > 0 ? drop / turns / nS : NaN;
   const topZ = M.homeZ - prog.jigTop, liftZ = topZ - M.lift, Zs = topZ + zs, Ze = topZ + ze;
   const Cx = sel.x - d * Math.cos(rad(a)), Cy = M.partY - d * Math.sin(rad(a));
   const XY = (R, tx, ty) => ({ X: Cx + d * Math.cos(rad(R + a)) + tx, Y: Cy + d * Math.sin(rad(R + a)) + ty });
-  Object.assign(out, { r, zoneTop, zoneBot, zs, ze, drop, spacing, topZ, liftZ, Zs, Ze, d: ds.d, a, Cx, Cy });
+  Object.assign(out, { capped, zeFull, r, zoneTop, zoneBot, zs, ze, drop, spacing, topZ, liftZ, Zs, Ze, d: ds.d, a, Cx, Cy });
 
   let n = P.sweep / P.step;
   const nOK = Number.isInteger(n) && n >= 2 && n % 2 === 0;
@@ -452,7 +454,8 @@ function compute(){
   C('Strand spacing ≥ bead', spacing >= 2 * prog.halfBead, 'Strands may touch.');
   C('Radius > 0', r > 0, '');
   C('R within ±' + M.rWindow, Math.max(...Rs.map(Math.abs)) <= M.rWindow, '');
-  C('Z in travel', Math.min(...Zz) >= 0 && Math.max(...Zz) <= M.homeZ, '');
+  C('Z within max ' + M.maxZ, Math.min(...Zz) >= 0 && Math.max(...Zz) <= M.maxZ + 1e-9, 'A point is deeper than Max Z, or Z is above home.');
+  C('Spiral below top', ze > zs, 'Max Z leaves no room for the spiral below the top of the part.');
   C('Needle reaches', M.needle >= ze, 'Needle shorter than deepest point.');
   return out;
 }
@@ -495,7 +498,7 @@ function render(){
     kvRow('Wall clearance', f2(pg.clear), isPH(pp + 'clear')) + kvRow('Tip radius r', f2(o.r)) +
     grp(pg.feature === 'OD' ? 'Glue zone, below top (OD)' : 'Glue zone, depth below top') +
     kvRow('Zone', f2(o.zoneTop) + ' to ' + f2(o.zoneBot)) + kvRow('Glue height', f2(o.zoneBot - o.zoneTop)) +
-    kvRow('Spiral centerline', f2(o.zs) + ' to ' + f2(o.ze)) + kvRow('Strand spacing', f2(o.spacing)) +
+    kvRow('Spiral centerline', f2(o.zs) + ' to ' + f2(o.ze)) + (o.capped ? kvRow('Limited by Max Z', 'full depth ' + f2(o.zeFull) + ' → ' + f2(o.ze), true) : '') + kvRow('Strand spacing', f2(o.spacing)) +
     grp('Z') +
     kvRow('Top of part Z', f2(o.topZ), isPH(pp + 'jigTop')) + kvRow('Lift Z', f2(o.liftZ), isPH('machine.lift')) +
     kvRow('Spiral Z', f2(o.Zs) + ' to ' + f2(o.Ze)) +
@@ -614,6 +617,7 @@ function buildSettings(){
   const dOpts = M.dSets.map((s, i) => `<option value="${i}" ${+M.dSet === i ? 'selected' : ''}>Set ${i + 1}</option>`).join('');
   let g = '';
   g += `<div class="card"><h2>Machine</h2>` +
+    field('Max Z, deepest nozzle (mm)', numIn('machine.maxZ'), 'Barrel holder collides below this; spiral is cut off here') +
     field('Home Z to plate (mm)', numIn('machine.homeZ'), 'Z0 = home, larger = lower') +
     field('Part center Y (mm)', numIn('machine.partY')) +
     field('Lift above part (mm)', numIn('machine.lift')) +
